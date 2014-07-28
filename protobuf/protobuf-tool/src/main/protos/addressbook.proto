@@ -1,0 +1,55 @@
+package test.protobuff.tool.proto;
+
+option java_package = "test.protobuf.tool.protos";
+option java_outer_classname = "GooglePlayProtos";
+
+message Person {
+  required string name = 1;
+  required int32 id = 2;
+  optional string email = 3;
+
+  enum PhoneType {
+    MOBILE = 0;
+    HOME = 1;
+    WORK = 2;
+  }
+
+  message PhoneNumber {
+    required string number = 1;
+    optional PhoneType type = 2 [default = HOME];
+  }
+
+  repeated PhoneNumber phone = 4;
+}
+
+message AddressBook {
+  repeated Person person = 1;
+}
+
+message CorpusMetadata {
+    optional int32 backend = 1;
+    optional string name = 2;
+    optional string landingUrl = 3;
+    optional string libraryName = 4;
+    optional string recsWidgetUrl = 6;
+    optional string shopName = 7;
+}
+
+message TocResponse {
+  repeated CorpusMetadata corpus = 1;
+  optional int32 tosVersionDeprecated = 2;
+  optional string tosContent = 3;
+  optional string homeUrl = 4;
+  optional Experiments experiments = 5;
+  optional string tosCheckboxTextMarketingEmails = 6;
+  optional string tosToken = 7;
+}
+
+message UserSettings {
+    optional bool tosCheckboxMarketingEmailsOptedIn = 1;
+}
+
+message Experiments {
+  repeated string experimentId = 1;
+}
+

@@ -1,0 +1,39 @@
+apply plugin: 'java'
+
+repositories {
+    mavenLocal()
+    mavenCentral()
+    jcenter()
+}
+
+task createGeneratedDir(type:Exec) {
+    commandLine 'protoc', "-I=${projectDir}", "--java_out=${buildDir}/generated-src", "${projectDir}/src/main/protos/addressbook.proto"
+}
+
+task generateSource(type:Exec) {
+    outputDir = file("$buildDir/generated-src")
+    doFirst {
+        outputDir.exists() || outputDir.mkdirs()
+    }
+    commandLine 'protoc', "-I=${projectDir}", "--java_out=${buildDir}/generated-src", "${projectDir}/src/main/protos/addressbook.proto"
+}
+
+compileJava.dependsOn generateSource
+
+sourceSets {
+    main {
+        java {
+            srcDir 'build/generated-src/'
+        }
+    }
+}
+
+
+dependencies {
+    compile 'com.googlecode.protobuf-java-format:protobuf-java-format:1.2'
+    compile 'com.google.protobuf:protobuf-java:2.5.0'
+}
+
+
+
+
